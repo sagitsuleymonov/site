@@ -1,0 +1,20 @@
+# Maxfiy sozlamalar
+.env
+.env.*
+
+# macOS
+.DS_Store
+._*
+
+# Muharrirlar
+.vscode/
+.idea/
+*.swp
+
+# Vaqtinchalik fayllar va loglar
+*.log
+*.tmp
+node_modules/
+
+# Claude Code shaxsiy sozlamalari
+.claude/settings.local.json
