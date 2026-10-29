@@ -9,6 +9,36 @@ const store = {
   set(key, value) { try { localStorage.setItem(key, value); } catch {} },
 };
 
+/* ---------- Yopishqoq menyu ---------- */
+const topbar = document.querySelector(".topbar");
+const navList = document.querySelector(".nav-links");
+const navLinks = [...navList.querySelectorAll("a")];
+let activeLink = null;
+
+function onScroll() {
+  topbar.classList.toggle("scrolled", window.scrollY > 8);
+
+  // Ekranning yuqori uchdan birida turgan bo'lim havolasini ajratib ko'rsatamiz
+  const line = window.innerHeight / 3;
+  let current = null;
+  for (const a of navLinks) {
+    const section = document.querySelector(a.getAttribute("href"));
+    if (!section) continue;
+    const { top, bottom } = section.getBoundingClientRect();
+    if (top <= line && bottom > line) current = a;
+  }
+  if (current === activeLink) return;
+  activeLink = current;
+  navLinks.forEach((a) => a.classList.toggle("active", a === current));
+  // Telefonda havolalar qatori faol havolaga surilib boradi
+  if (current && navList.scrollWidth > navList.clientWidth) {
+    const shift = current.getBoundingClientRect().left - navList.getBoundingClientRect().left;
+    navList.scrollTo({ left: navList.scrollLeft + shift - navList.clientWidth / 2 + current.offsetWidth / 2, behavior: "smooth" });
+  }
+}
+onScroll();
+window.addEventListener("scroll", onScroll, { passive: true });
+
 /* ---------- Tungi / kunduzgi rejim ---------- */
 const root = document.documentElement;
 const themeBtn = document.querySelector(".theme-toggle");
@@ -79,6 +109,12 @@ const RU = {
   "Changyutgich": "Пылесос",
   "Boshqa maishiy texnika": "Другая бытовая техника",
 
+  "Ishlarim": "Мои работы",
+  "Bajargan ishlarimdan namunalar": "Примеры моих работ",
+  "Rasm o'rni": "Место для фото",
+  "Ish nomi": "Название работы",
+  "Ish haqida qisqa izoh": "Коротко о работе",
+
   "Nega men": "Почему я",
   "Ishonch bilan topshiring": "Доверьте технику мне",
   "Tajriba": "Опыт",
@@ -92,6 +128,25 @@ const RU = {
   "Birga ishlaymiz": "Работаем вместе",
   "Hamkor nomi": "Название партнёра",
   "Hamkorlik haqida qisqa ma'lumot": "Коротко о сотрудничестве",
+
+  "Fikrlar": "Отзывы",
+  "Mijozlar fikri": "Отзывы клиентов",
+  "Mijozlar nima deydi": "Что говорят клиенты",
+  "Sharh matni shu yerda bo'ladi.": "Здесь будет текст отзыва.",
+  "Mijoz ismi": "Имя клиента",
+  "Ta'mirlangan texnika": "Отремонтированная техника",
+
+  "Savollar": "Вопросы",
+  "Savol-javob": "Вопросы и ответы",
+  "Ko'p beriladigan savollar": "Частые вопросы",
+  "Qaysi texnikani ta'mirlaysiz?": "Какую технику вы ремонтируете?",
+  "Kir yuvish mashinasi, muzlatgich, konditsioner, mikroto'lqinli pech, suv isitgich va boshqa maishiy texnikani. Texnikangiz ro'yxatda bo'lmasa, qo'ng'iroq qilib so'rang.": "Стиральные машины, холодильники, кондиционеры, микроволновки, водонагреватели и другую бытовую технику. Если вашей техники нет в списке — позвоните и спросите.",
+  "Narxni qachon bilaman?": "Когда я узнаю цену?",
+  "Avval nosozlikni aniqlayman, keyin narxni aytaman. Ishni narxni bilganingizdan keyin boshlayman.": "Сначала нахожу неисправность, потом называю цену. К работе приступаю только после того, как вы узнали цену.",
+  "Uyga kelasizmi?": "Вы приезжаете на дом?",
+  "Ha. Qo'ng'iroq qiling yoki yozing — muammoni eshitib, qachon kela olishimni aytaman.": "Да. Позвоните или напишите — выслушаю проблему и скажу, когда смогу приехать.",
+  "Qanday buyurtma beraman?": "Как сделать заказ?",
+  "+998 90 012 00 61 raqamiga qo'ng'iroq qiling yoki Telegram'da @sagitsuleymonov ga yozing.": "Позвоните по номеру +998 90 012 00 61 или напишите в Telegram @sagitsuleymonov.",
 
   "Aloqa": "Контакты",
   "Texnikangiz buzildimi?": "Сломалась техника?",
